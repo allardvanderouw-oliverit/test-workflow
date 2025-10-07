@@ -1,4 +1,4 @@
-name: Deploy stack-a
+name: Deploy stack-b
 
 on:
   workflow_dispatch:
@@ -7,4 +7,4 @@ jobs:
   call-template:
     uses: ./.github/workflows/deploy-template.yml
     with:
-      stack: stack-a
+      stack: stack-b

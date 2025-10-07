@@ -1,0 +1,32 @@
+name: Deploy Template
+
+on:
+  workflow_call:
+    inputs:
+      stack:
+        description: "Name of the stack to deploy"
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.stack }}
+  cancel-in-progress: false
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo staging deploy
+        run: echo "Deploying ${{ inputs.stack }} to staging environment..."
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    environment:
+      name: production
+    steps:
+      - name: Echo production deploy
+        run: echo "Deploying ${{ inputs.stack }} to production environment..."
+        
