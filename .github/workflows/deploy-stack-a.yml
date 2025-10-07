@@ -1,0 +1,27 @@
+name: Deploy stack-a
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo staging deploy
+        run: echo "Deploying stack-a to staging environment..."
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    environment:
+      name: production
+    steps:
+      - name: Echo production deploy
+        run: echo "Deploying stack-a to production environment..."
+        
